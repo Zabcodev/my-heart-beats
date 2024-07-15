@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "888135995890",
+    "firebase_url": "https://ecg-backend-5c307-default-rtdb.firebaseio.com",
+    "project_id": "ecg-backend-5c307",
+    "storage_bucket": "ecg-backend-5c307.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888135995890:android:40f28722c8aa7127635b6b",
+        "android_client_info": {
+          "package_name": "com.zabcoding.myheartbeats"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrB-oiNkTdIa-9VBnIgLMgoGpUl6pCBHY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
