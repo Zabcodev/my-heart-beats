@@ -45,41 +45,31 @@ class SignUpViewModel @Inject constructor(
                 }
             }
             SignUpEvent.ButtonClicked -> {
-                signUp()
+
             }
         }
         validateData()
     }
 
-    private fun signUp() {
+    fun signUp(navigateToHome: () -> Unit) {
         validateData()
         val model = SignUpDto(
             email = state.value.email,
             password = state.value.password
         )
-        signUpSuccess(model)
+        signUpSuccess(model, navigateToHome)
     }
 
-    private fun signUpSuccess(model: SignUpDto) {
+    private fun signUpSuccess(model: SignUpDto, navigateToHome: () -> Unit) {
         viewModelScope.launch {
             _state.update { state -> state.copy(isLoading = true) }
             val result = withContext(Dispatchers.IO) {
                 repository.signUp(model)
             }
             if (result != null) {
-                _state.update { state ->
-                    state.copy(
-                        isSignUpSuccess = true,
-                        isLoading = false
-                    )
-                }
+                navigateToHome()
             } else {
-                _state.update { state ->
-                    state.copy(
-                        isSignUpError = true,
-                        isLoading = false
-                    )
-                }
+                // Error
             }
         }
     }

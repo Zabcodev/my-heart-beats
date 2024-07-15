@@ -11,6 +11,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.zabcoding.myheartbeats.R
 import com.zabcoding.myheartbeats.presentation.auth.forgotpassword.components.ForgotBottomComponent
 import com.zabcoding.myheartbeats.presentation.auth.forgotpassword.components.ForgotButtonComponent
@@ -27,8 +29,13 @@ import com.zabcoding.myheartbeats.presentation.auth.login.components.EmailCompon
 
 @Composable
 fun ForgotPasswordScreen(
-    popBackStack: () -> Unit
+    popBackStack: () -> Unit,
+    forgotPasswordViewModel: ForgotPasswordViewModel = hiltViewModel()
 ) {
+
+    val state = forgotPasswordViewModel.state.collectAsState()
+    val event = forgotPasswordViewModel::onEvent
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -65,10 +72,17 @@ fun ForgotPasswordScreen(
                     color = Color.DarkGray,
                     fontWeight = FontWeight.SemiBold
                 )
-                EmailComponent(email = "", onEmailChange = {})
+                EmailComponent(
+                    email = state.value.email,
+                    onEmailChange = { newEmailValue ->
+                        event(ForgotPasswordEvent.SetEmail(newEmailValue))
+                    }
+                )
                 ForgotButtonComponent(
                     text = "Enviar correo",
-                    onClick = { popBackStack() }
+                    onClick = {
+                        forgotPasswordViewModel.sendEmail(navigateToLogin = popBackStack)
+                    }
                 )
             }
         }

@@ -110,8 +110,11 @@ fun SignUpScreen(
                 SignUpButtonComponent(
                     text = "Registrarse",
                     onClick = {
-                        //event(SignUpEvent.ButtonClicked)
-                        navigateToHome()
+                        signUpViewModel.signUp(
+                            navigateToHome = {
+                                navigateToHome()
+                            }
+                        )
                     }
                 )
             }

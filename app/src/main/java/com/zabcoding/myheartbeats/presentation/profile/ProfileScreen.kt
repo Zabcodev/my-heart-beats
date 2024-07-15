@@ -21,6 +21,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,14 +29,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.zabcoding.myheartbeats.presentation.profile.components.ProfileButtonComponent
 
 @Composable
 fun ProfileScreen(
     navigateToForgotPassword: () -> Unit,
     navigateToHelp: () -> Unit,
-    navigateToLogin: () -> Unit
+    navigateToLogin: () -> Unit,
+    profileViewModel: ProfileViewModel = hiltViewModel()
 ) {
+    profileViewModel.getCurrentUserEmail()
+    val state = profileViewModel.state.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,33 +51,36 @@ fun ProfileScreen(
         horizontalAlignment = Alignment.CenterHorizontally
 
     ) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(14.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = Color.LightGray,
-                contentColor = Color.DarkGray
-            )
-        ) {
-            Column(
+
+        if (state.value.userEmail.isNotBlank()) {
+            Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(32.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .padding(14.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.LightGray,
+                    contentColor = Color.DarkGray
+                )
             ) {
-                Image(
-                    imageVector = Icons.Filled.AccountCircle,
-                    contentDescription = "icon-profile",
-                    modifier = Modifier.size(160.dp),
-                )
-                Text(
-                    text = "johndoe@mail.com",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.W600,
-                    color = Color.DarkGray
-                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(32.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Image(
+                        imageVector = Icons.Filled.AccountCircle,
+                        contentDescription = "icon-profile",
+                        modifier = Modifier.size(160.dp),
+                    )
+                    Text(
+                        text = state.value.userEmail,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.W600,
+                        color = Color.DarkGray
+                    )
+                }
             }
         }
 
@@ -137,7 +146,10 @@ fun ProfileScreen(
 
         ProfileButtonComponent(
             text = "Cerrar sesion",
-            onClick = { navigateToLogin() },
+            onClick = {
+                profileViewModel.logout()
+                navigateToLogin()
+            },
             modifier = Modifier
                 .padding(14.dp)
         )

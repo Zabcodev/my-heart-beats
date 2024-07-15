@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import com.zabcoding.myheartbeats.navigation.Graph.ROOT
 import com.zabcoding.myheartbeats.navigation.Graph.AUTH
 import com.zabcoding.myheartbeats.navigation.authgraph.authNavGraph
+import com.zabcoding.myheartbeats.navigation.homegraph.homeNavGraph
 
 @Composable
 fun RootNavGraph(navController: NavHostController) {
@@ -15,5 +16,6 @@ fun RootNavGraph(navController: NavHostController) {
         startDestination = AUTH
     ) {
         authNavGraph(navController)
+        homeNavGraph(navController)
     }
 }

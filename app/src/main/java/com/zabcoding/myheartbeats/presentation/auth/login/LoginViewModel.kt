@@ -37,42 +37,32 @@ class LoginViewModel @Inject constructor(
             }
 
             LoginEvent.LoginButtonClicked -> {
-                login()
+
             }
         }
         validationsChecked()
     }
 
 
-    private fun login() {
+    fun login(navigateToHome: () -> Unit) {
         validationsChecked()
         val login = SignInDto(
             email = state.value.email,
             password = state.value.password
         )
-        loginRequest(login)
+        loginRequest(login, navigateToHome)
     }
 
-    private fun loginRequest(login: SignInDto) {
+    private fun loginRequest(login: SignInDto, navigateToHome: () -> Unit) {
         viewModelScope.launch {
             _state.update { state -> state.copy(isLoading = true) }
             val result = withContext(Dispatchers.IO) {
                 repository.signIn(login)
             }
             if (result != null) {
-                _state.update { state ->
-                    state.copy(
-                        isLoginSuccess = true,
-                        isLoading = false
-                    )
-                }
+                navigateToHome()
             } else {
-                _state.update { state ->
-                    state.copy(
-                        isLoginError = true,
-                        isLoading = false
-                    )
-                }
+                // Error
             }
         }
     }

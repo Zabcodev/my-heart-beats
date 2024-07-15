@@ -76,8 +76,9 @@ fun LoginScreen(
                 },
                 onForgotPasswordClick = navigateToForgotPassword,
                 onLoginButtonClick = {
-                    //event(LoginEvent.LoginButtonClicked)
-                    navigateToHome()
+                    loginViewModel.login(
+                        navigateToHome = navigateToHome
+                    )
                 }
             )
 

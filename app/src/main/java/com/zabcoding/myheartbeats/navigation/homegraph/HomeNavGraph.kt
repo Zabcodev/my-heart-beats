@@ -7,6 +7,7 @@ import androidx.navigation.navigation
 import com.zabcoding.myheartbeats.navigation.Graph
 import com.zabcoding.myheartbeats.navigation.Graph.HOME
 import com.zabcoding.myheartbeats.navigation.authgraph.AuthScreens
+import com.zabcoding.myheartbeats.presentation.dashboard.DashboardScreen
 import com.zabcoding.myheartbeats.presentation.profile.ProfileScreen
 
 fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
@@ -23,7 +24,7 @@ fun NavGraphBuilder.addDashboard(navController: NavHostController) {
     composable(
         route = HomeScreens.DashboardScreen.route
     ) {
-
+        DashboardScreen()
     }
 }
 
