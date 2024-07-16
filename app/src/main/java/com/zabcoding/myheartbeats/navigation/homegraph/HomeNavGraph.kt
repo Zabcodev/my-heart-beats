@@ -7,6 +7,8 @@ import androidx.navigation.navigation
 import com.zabcoding.myheartbeats.navigation.Graph
 import com.zabcoding.myheartbeats.navigation.Graph.HOME
 import com.zabcoding.myheartbeats.navigation.authgraph.AuthScreens
+import com.zabcoding.myheartbeats.navigation.manualgraph.ProfileScreens
+import com.zabcoding.myheartbeats.navigation.manualgraph.addManualScreen
 import com.zabcoding.myheartbeats.presentation.dashboard.DashboardScreen
 import com.zabcoding.myheartbeats.presentation.profile.ProfileScreen
 import com.zabcoding.myheartbeats.utils.navigateToSingleTopTo
@@ -18,6 +20,7 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
     ) {
         addDashboard(navController)
         addProfile(navController)
+        addManualScreen(navController)
     }
 }
 
@@ -35,7 +38,7 @@ fun NavGraphBuilder.addProfile(navController: NavHostController) {
     ) {
         ProfileScreen(
             navigateToForgotPassword = { navController.navigate(AuthScreens.ForgotPasswordScreen.route) },
-            navigateToHelp = { /*TODO*/ },
+            navigateToHelp = { navController.navigate(ProfileScreens.ManualScreen.route) },
             navigateToLogin = { navController.navigateToSingleTopTo(Graph.AUTH) }
         )
     }

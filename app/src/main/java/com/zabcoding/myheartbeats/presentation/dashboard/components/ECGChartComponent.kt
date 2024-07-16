@@ -29,6 +29,7 @@ import co.yml.charts.ui.wavechart.model.WaveFillColor
 import co.yml.charts.ui.wavechart.model.WavePlotData
 import com.zabcoding.myheartbeats.data.network.response.EcgResponse
 import com.zabcoding.myheartbeats.presentation.dashboard.model.EcgModel
+import com.zabcoding.myheartbeats.utils.generateEcgData
 
 @Composable
 fun ECGChartComponent(
@@ -36,7 +37,7 @@ fun ECGChartComponent(
     modifier: Modifier = Modifier
 ) {
 
-    val pointsGraph: List<Point> = pointsData.map { ecgData -> Point(ecgData.bpm.toFloat(), ecgData.highPass.toFloat()) }
+    val pointsGraph: List<Point> = generateEcgData()
 
     val steps = 5
 
@@ -52,7 +53,6 @@ fun ECGChartComponent(
         .steps(steps)
         .backgroundColor(Color(0xFF2978DD))
         .labelAndAxisLinePadding(20.dp)
-        .labelData { i -> i.toString() }
         .build()
 
     val data = WaveChartData(
