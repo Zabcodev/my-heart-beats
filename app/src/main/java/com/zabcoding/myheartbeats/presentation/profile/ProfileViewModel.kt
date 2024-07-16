@@ -1,17 +1,21 @@
 package com.zabcoding.myheartbeats.presentation.profile
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.zabcoding.myheartbeats.data.local.RoomService
 import com.zabcoding.myheartbeats.data.network.FirebaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val repository: FirebaseRepository
+    private val repository: FirebaseRepository,
+    private val roomService: RoomService
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ProfileState())
@@ -28,5 +32,10 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun logout() = repository.logout()
+    fun logout() {
+        repository.logout()
+        viewModelScope.launch {
+            roomService.deleteData()
+        }
+    }
 }

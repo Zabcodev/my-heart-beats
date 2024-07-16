@@ -28,16 +28,15 @@ import co.yml.charts.ui.wavechart.model.WaveChartData
 import co.yml.charts.ui.wavechart.model.WaveFillColor
 import co.yml.charts.ui.wavechart.model.WavePlotData
 import com.zabcoding.myheartbeats.data.network.response.EcgResponse
+import com.zabcoding.myheartbeats.presentation.dashboard.model.EcgModel
 
 @Composable
 fun ECGChartComponent(
-    ecgResponse: EcgResponse,
+    pointsData: List<EcgModel>,
     modifier: Modifier = Modifier
 ) {
 
-    val pointsData: List<Point> = listOf(
-        Point(ecgResponse.HighPassV1!!.toFloat(), ecgResponse.BeatsPerMin!!.toFloat()),
-    )
+    val pointsGraph: List<Point> = pointsData.map { ecgData -> Point(ecgData.bpm.toFloat(), ecgData.highPass.toFloat()) }
 
     val steps = 5
 
@@ -53,19 +52,14 @@ fun ECGChartComponent(
         .steps(steps)
         .backgroundColor(Color(0xFF2978DD))
         .labelAndAxisLinePadding(20.dp)
-        .labelData { i ->
-            val yMin = pointsData.minOf { it.y }
-            val yMax = pointsData.maxOf { it.y }
-            val yScale = (yMax - yMin) / steps
-            ((i * yScale) + yMin).formatToSinglePrecision()
-        }
+        .labelData { i -> i.toString() }
         .build()
 
     val data = WaveChartData(
         wavePlotData = WavePlotData(
             lines = listOf(
                 Wave(
-                    dataPoints = pointsData,
+                    dataPoints = pointsGraph,
                     waveStyle = LineStyle(color = Color(0xFF057AF9)),
                     selectionHighlightPoint = SelectionHighlightPoint(),
                     shadowUnderLine = ShadowUnderLine(),
@@ -93,7 +87,7 @@ fun ECGChartComponent(
         )
         Spacer(modifier = Modifier.height(12.dp))
         Text(
-            text = "Latidos por minuto: ${ecgResponse.BeatsPerMin}",
+            text = "Latidos por minuto: ${pointsData.last().bpm}",
             fontSize = 18.sp,
             fontWeight = FontWeight.W700,
             color = Color(0xFF1170D8)

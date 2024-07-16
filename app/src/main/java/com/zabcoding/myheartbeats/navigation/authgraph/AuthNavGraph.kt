@@ -9,6 +9,7 @@ import com.zabcoding.myheartbeats.navigation.Graph.AUTH
 import com.zabcoding.myheartbeats.presentation.auth.forgotpassword.ForgotPasswordScreen
 import com.zabcoding.myheartbeats.presentation.auth.login.LoginScreen
 import com.zabcoding.myheartbeats.presentation.auth.signup.SignUpScreen
+import com.zabcoding.myheartbeats.utils.navigateToSingleTopTo
 
 fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
     navigation(
@@ -26,9 +27,9 @@ fun NavGraphBuilder.addLogin(navController: NavHostController) {
         route = AuthScreens.LoginScreen.route
     ) {
         LoginScreen(
-            navigateToHome = { navController.navigate(Graph.HOME) },
-            navigateToForgotPassword = { navController.navigate(AuthScreens.ForgotPasswordScreen.route) },
-            navigateToRegister = { navController.navigate(AuthScreens.SignUpScreen.route) }
+            navigateToHome = { navController.navigateToSingleTopTo(Graph.HOME) },
+            navigateToForgotPassword = { navController.navigateToSingleTopTo(AuthScreens.ForgotPasswordScreen.route) },
+            navigateToRegister = { navController.navigateToSingleTopTo(AuthScreens.SignUpScreen.route) }
         )
     }
 }
@@ -42,7 +43,7 @@ fun NavGraphBuilder.addSignUp(navController: NavHostController) {
                 navController.popBackStack()
             },
             navigateToHome = {
-                navController.navigate(Graph.HOME)
+                navController.navigateToSingleTopTo(Graph.HOME)
             }
         )
     }

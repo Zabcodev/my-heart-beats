@@ -1,5 +1,6 @@
 package com.zabcoding.myheartbeats.presentation.dashboard
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import co.yml.charts.common.extensions.isNotNull
 import com.zabcoding.myheartbeats.presentation.dashboard.components.DashboardTopComponent
 import com.zabcoding.myheartbeats.presentation.dashboard.components.ECGChartComponent
+import com.zabcoding.myheartbeats.presentation.dashboard.model.EcgModel
 
 @Composable
 fun DashboardScreen(
@@ -26,6 +28,12 @@ fun DashboardScreen(
 ) {
 
     val state = dashboardViewModel.state.collectAsState()
+    var pointsData: List<EcgModel> = emptyList()
+
+    if (state.value.dataList.isNotEmpty()) {
+        pointsData = state.value.dataList
+        Log.i("DATALIST", pointsData.toString())
+    }
 
     ConstraintLayout(
         modifier = Modifier
@@ -53,7 +61,7 @@ fun DashboardScreen(
                         end.linkTo(parent.end)
                         bottom.linkTo(parent.bottom)
                     },
-                ecgResponse = state.value.data!!
+                pointsData = pointsData
             )
         } else {
             Box(

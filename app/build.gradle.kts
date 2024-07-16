@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.google.services.android)
+    alias(libs.plugins.ksp)
     kotlin("kapt")
 }
 
@@ -76,6 +77,10 @@ dependencies {
     implementation(libs.constraint.layout.compose)
     implementation(libs.navigation.compose)
     implementation(libs.ycharts.compose)
+
+    implementation(libs.room.ktx)
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

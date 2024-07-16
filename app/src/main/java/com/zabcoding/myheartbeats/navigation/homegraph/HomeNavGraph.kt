@@ -9,6 +9,7 @@ import com.zabcoding.myheartbeats.navigation.Graph.HOME
 import com.zabcoding.myheartbeats.navigation.authgraph.AuthScreens
 import com.zabcoding.myheartbeats.presentation.dashboard.DashboardScreen
 import com.zabcoding.myheartbeats.presentation.profile.ProfileScreen
+import com.zabcoding.myheartbeats.utils.navigateToSingleTopTo
 
 fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
     navigation(
@@ -35,7 +36,7 @@ fun NavGraphBuilder.addProfile(navController: NavHostController) {
         ProfileScreen(
             navigateToForgotPassword = { navController.navigate(AuthScreens.ForgotPasswordScreen.route) },
             navigateToHelp = { /*TODO*/ },
-            navigateToLogin = { navController.navigate(Graph.AUTH) }
+            navigateToLogin = { navController.navigateToSingleTopTo(Graph.AUTH) }
         )
     }
 }
