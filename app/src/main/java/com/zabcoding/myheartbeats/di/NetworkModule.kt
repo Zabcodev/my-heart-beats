@@ -1,7 +1,11 @@
 package com.zabcoding.myheartbeats.di
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.zabcoding.myheartbeats.data.network.FirebaseRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,6 +22,14 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideFirebaseDatabase() = FirebaseDatabase.getInstance()
+    fun provideFirebaseDatabase() = Firebase.database.reference
+
+    @Provides
+    @Singleton
+    fun provideFirebaseRepository(
+        databaseReference: DatabaseReference,
+        authentication: FirebaseAuth
+    ) = FirebaseRepository(reference = databaseReference, authentication = authentication)
+
 
 }
